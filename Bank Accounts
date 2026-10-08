@@ -1,0 +1,63 @@
+from datetime import datetime, date
+class BankAccount:
+    def __init__(self,account_number,owner_name,balance=0):
+        self.transaction_history=[]
+        self.account_number=account_number
+        self.balance=balance
+        self.owner_name=owner_name
+    def deposit(self,amount):
+        self.balance+=amount
+        now = datetime.now()
+        change=Transaction("deposit",amount,now)
+        self.transaction_history.append(change)
+        print(" An amount of "+str(amount)+" dollars has been deposited into "+self.owner_name+"'s account. The new balance is "+str(self.balance)+" ")
+    def withdrawl(self,amount):
+        if self.balance>=amount:
+            self.balance-=amount
+            now = datetime.now()
+            change=Transaction("withdrawl",amount,now)
+            self.transaction_history.append(change)
+            print(" An amount of "+str(amount)+" dollars has been withdrawled from "+self.owner_name+"'s account. The new balance is "+str(self.balance)+" ")    
+        else:
+            print("You can not wihdrawl more money than in your account")
+    def get_balance(self):
+        print("$"+str(self.balance)+"")         
+    def transfer_funds(self,other_account,amount):
+        pass
+class SavingsAccount(BankAccount):
+    def __init__(self,account_number,owner_name,interest_rate,balance=0):
+        super().__init__(account_number,owner_name,balance=0)    
+        self.interest_rate=interest_rate
+    def apply_interest(self):
+        self.balance+=self.balance*self.interest_rate
+        now = datetime.now()
+        change=Transaction("Interest Applied",self.interest_rate,now)
+        self.transaction_history.append(change)
+        print(self.balance)
+class CheckingAccount(BankAccount):
+    def __init__(self,account_number,owner_name,overdraft_limit,balance=0):
+        super().__init__(account_number,owner_name,balance=0)    
+        self.overdraft_limit=overdraft_limit
+    def withdrawl(self,amount):
+        if self.balance-amount<self.overdraft_limit:
+            self.balance-=amount
+            now = datetime.now()
+            change=Transaction("withdrawl",amount,now)
+            self.transaction_history.append(change)
+            print(" An amount of "+str(amount)+" dollars has been withdrawled from "+self.owner_name+"'s account. The new balance is "+str(self.balance)+" ")    
+        else:
+            print("Overdraft")
+            self.balance-=5
+            now = datetime.now()
+            change=Transaction("overdraft fee",5,now)
+            self.transaction_history.append(change)
+class Transaction:
+    def __init__(self,type,amount,time):
+        self.type=type
+        self.amount=amount
+        self.time=time    
+    def return_data(self):
+        readable_dt=self.time("%A, %B %d, %Y at %I:%M %p")
+        print(" The transaction was a "+self.type+" made at "+readable_dt+" of an amount of "+str(self.amount)+" dollars ") 
+
+
