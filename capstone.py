@@ -1,9 +1,15 @@
 class Location:
     def __init__(self,name,positions,type):
-        self.position=positions
+        self.positions=positions
         self.name=name
         self.type=type
-
+         
+        
+    def does_point_exist(self,point):
+        if point in self.positions:
+            return True
+        else:
+            return False    
 
 class Students:
     def __init__(self,name,position,speed,orientation,has_disability=False ):
@@ -15,13 +21,24 @@ class Students:
     def change_position(self, new_position):
         self.position=new_position        
 class Map:
-    def __init__(self):
-        self.positions=[]
+    def __init__(self,length,width):
+        self.length
+        self.width
         self.locations=[]
     def add_location(self,l):
         self.locations.append(l)
+# make dictionary for self.positions
     def draw_map(self):
-        fo
-            for j in range(len(locations)):
-                if (n,m) in locations.positions[j] 
+        for i in range(self.width):
+            for j in range(self.length):
+                    for k in range(len(self.locations)):
+                        if (i,j) in self.locations[k].positions:
+                            print(self.locations[k].positions[(i.j)])
+                        else:
+                            print("*")    
+                            
+m=Map()
+print(m.add_positions(3,4))
+
+
      
